@@ -22,9 +22,15 @@ namespace :api do
 
 # this will create all of the routes for all base crud actions
 resources :subs
+# resources :subs, only: [:index, :show, :update]
+# resources :subs, except: [:create, :destroy]
 
+# if you want add a route with a model of parent and child
+# always go two level deep at most
+# #   resources :parents do 
+# #     resources :childs
 
-
+# resources :parents except: [:index :show, :update, :create, :destroy]
 end
 
 
