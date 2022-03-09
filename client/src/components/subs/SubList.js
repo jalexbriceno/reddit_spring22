@@ -30,12 +30,29 @@ const App = () => {
 
   const updateSub = (id, sub) => {
     // TODO make a call to our rails to updating the item using the params
+    axios.put(`/api/subs/${id}`, { sub })
     // TODO update the state
+      .then( res => {
+        const newUpdatedSubs = subs.map( s => {
+          if (s.id === id) {
+            return res.data
+          }
+          return s
+        })
+        setSubs(newUpdatedSubs)
+      })
+      .catch( err => console.log(err) )
   }
 
   const deleteSub = (id) => {
     // TODO make a call to our rails to delete the item
-    // TODO delete item in the state, display message 
+    axios.delete(`/api/subs/${id}`)
+      .then(res => {
+        // TODO delete item in the state, display message 
+        setSubs(subs.filter( s => s.id !== id ))
+        alert(res.data.message)
+      })
+      .catch( err => console.log(err) )
   }
 
   return(
@@ -44,6 +61,8 @@ const App = () => {
       <SubForm addSub={addSub} />
       <SubList 
         subs={subs}
+        updateSub={updateSub}
+        deleteSub={deleteSub}
       />
     </>
   )
